@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface Market {
@@ -90,7 +91,7 @@ const AllProducts = () => {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {all.map((product) => (
-                    <div
+                    <Link href={`/product/${product.id}`}
                         key={product.id}
                         className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4"
                     >
@@ -134,7 +135,7 @@ const AllProducts = () => {
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </section>

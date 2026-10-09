@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface Product {
     id: number;
     nameBn: string;
@@ -48,7 +50,7 @@ const PriceDecreased = async () => {
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {decreasedProducts.map((item) => (
-                    <div
+                    <Link href={`/product/${item.id}`}
                         key={item.id}
                         className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4"
                     >
@@ -78,7 +80,7 @@ const PriceDecreased = async () => {
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </section>

@@ -26,7 +26,8 @@ const Marquie = () => {
         const getMarquie = async () => {
             try {
                 const res = await fetch("https://api.abcz.workers.dev/api/bazardor/products");
-                const data = await res.json(); setMarquie(data);
+                const data = await res.json();
+                setMarquie(data);
             }
             catch (error) {
                 console.error("Product fetch error:", error);
@@ -53,7 +54,7 @@ const Marquie = () => {
                                             : "text-gray-500"
                                 }
                             >
-                                {m.change.dir === "up" ? "▲" : m.change.dir === "down" ? "▼" : ""}{" "}
+                                {m.change.dir === "up" ? "▲" : m.change.dir === "down" ? "▼" : "-"}{" "}
                                 {Math.abs(m.change.pct)}%
                             </span>
                         </div>

@@ -1,6 +1,6 @@
 import { connection } from "next/server";
 import Image from "next/image";
-
+import Link from "next/link";
 const Header = async () => {
     await connection();
 
@@ -29,13 +29,13 @@ const Header = async () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <p className="rounded-xl py-2 px-3">
+                    <Link href="/signin" className="rounded-xl py-2 px-3">
                         Sign in
-                    </p>
+                    </Link>
 
-                    <p className="rounded-xl py-2 px-3 bg-green-600">
+                    <Link href="/signup" className="rounded-xl py-2 px-3 bg-green-600">
                         Sign up
-                    </p>
+                    </Link>
                 </div>
 
             </div>

@@ -43,7 +43,7 @@ const PriceDecreased = async () => {
         <section className="max-w-7xl mx-auto px-5 py-6">
             <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-gray-900">
                 <span className="text-base text-green-700">▼</span>
-                আজ দাম komece
+                আজ দাম কমেছে
             </h2>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

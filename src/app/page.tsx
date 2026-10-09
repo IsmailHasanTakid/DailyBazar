@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Hero from "@/components/hero";
 import PriceIncrease from "@/components/PriceIncrease";
 import PriceDecreased from "@/components/PriceDecrease";
+import AllProducts from "@/components/AllProducts";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
 
 
       <PriceDecreased />
+      <AllProducts />
     </>
   );
 }

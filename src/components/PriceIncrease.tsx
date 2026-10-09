@@ -13,7 +13,7 @@ interface Product {
 const unitBn: Record<string, string> = {
     kg: "কেজি",
     litre: "লিটার",
-    piece: "টি",
+    piece: "পিস",
     dozen: "ডজন",
 };
 

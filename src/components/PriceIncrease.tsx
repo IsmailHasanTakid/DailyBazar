@@ -17,6 +17,7 @@ const unitBn: Record<string, string> = {
     litre: "লিটার",
     piece: "পিস",
     dozen: "ডজন",
+    hali: "হালি",
 };
 
 const PriceIncrease = async () => {

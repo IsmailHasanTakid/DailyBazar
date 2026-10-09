@@ -1,44 +1,72 @@
-"use client"
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
 interface Category {
-    id: string,
-    icon: string,
-    slug: string,
+    id: string;
+    icon: string;
+    slug: string;
     nameBn: string;
 }
 
 const NavLinks = () => {
-    const [categoryData, setCategoryData] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState(true);
+    const pathname = usePathname();
+
     useEffect(() => {
         const getCategories = async () => {
             try {
-                const res = await fetch("https://api.abcz.workers.dev/api/bazardor/categories");
+                const res = await fetch(
+                    "https://api.abcz.workers.dev/api/bazardor/categories"
+                );
                 const data = await res.json();
-                setCategoryData(data);
+                setCategories(data);
             } catch (error) {
-                console.error("Category fetch error:", error);
-
+                console.error("ক্যাটাগরি লোড করতে সমস্যা:", error);
+            } finally {
+                setLoading(false);
             }
         };
         getCategories();
     }, []);
+
     return (
-        <div className="border-y border-gray-200 bg-white">
-            <div className="max-w-7xl mx-auto px-4">
-                <div className="flex items-center justify-center gap-2 overflow-x-auto py-3 scrollbar-hide">
-                    {categoryData.map((item) => (
-                        <Link href={`/category/${item.slug}`}
-                            key={item.id}
-                            className="flex shrink-0 items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-gray-700 transition-all duration-200 hover:border-green-500 hover:bg-green-50 hover:text-green-700 cursor-pointer" >
-                            <span className="text-lg"> {item.icon} </span>
-                            <span className="whitespace-nowrap text-sm font-medium">
-                                {item.nameBn} </span>
-                        </Link>
-                    ))}
+        <nav className="border-y border-gray-200 bg-white/80">
+            <div className="max-w-7xl mx-auto px-3 sm:px-5">
+
+                <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto py-2 scrollbar-hide md:justify-center">
+                    {loading
+                        ? Array.from({ length: 8 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="h-8 w-20 shrink-0 animate-pulse rounded-full bg-gray-200"
+                            />
+                        ))
+                        : categories.map((item) => {
+                            const href = `/category/${item.slug}`;
+                            const isActive = pathname === href;
+
+                            return (
+                                <Link
+                                    key={item.id}
+                                    href={href}
+                                    aria-current={isActive ? "page" : undefined}
+                                    className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 sm:px-4 py-1.5 text-sm transition-all duration-200 ${isActive
+                                        ? "bg-green-100 text-green-800 font-bold ring-1 ring-green-300"
+                                        : "text-gray-700 font-medium hover:bg-green-50 hover:text-green-700"
+                                        }`}
+                                >
+                                    <span className="text-base">{item.icon}</span>
+                                    <span className="whitespace-nowrap">{item.nameBn}</span>
+                                </Link>
+                            );
+                        })}
                 </div>
             </div>
-        </div>
+        </nav>
     );
 };
 

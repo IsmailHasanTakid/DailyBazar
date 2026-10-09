@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import SummaryCard from "@/components/SummaryCard";
 import { toBn, unitBn, formatPrice } from "@/lib/utlis";
 type Market = {
@@ -58,6 +59,17 @@ export default async function ProductDetails({
     return (
         <main className="min-h-screen bg-[#f1f5f1] p-6">
             <div className="mx-auto max-w-5xl space-y-4">
+                <Link
+                    href="/"
+                    className="group inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-2 text-sm font-semibold text-green-800 shadow-sm transition-all duration-300"
+                >
+                    <span className="text-lg transition-transform duration-300 group-hover:-translate-x-1">
+                        ←
+                    </span>
+
+                    <span>হোম পেজে ফিরে যান</span>
+                </Link>
+
                 {/* Header card */}
                 <div className="flex items-center justify-between gap-4 rounded-2xl border bg-white p-6">
                     <div className="flex items-center gap-4">
@@ -147,6 +159,7 @@ export default async function ProductDetails({
                     </section>
                 </div>
             </div>
+
         </main>
 
     )

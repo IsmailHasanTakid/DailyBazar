@@ -5,6 +5,7 @@ import Header from "@/components/header";
 import Marquie from "@/components/Marquie";
 import NavLinks from "@/components/NavLinks";
 import { Suspense } from "react";
+import { Toaster } from "react-hot-toast";
 
 const notoSerifBengali = Noto_Serif_Bengali({
   variable: "--font-noto-bengali",
@@ -35,6 +36,7 @@ export default function RootLayout({
           <NavLinks />
           <Marquie />
           {children}
+          <Toaster position="top-center" />
         </div>
       </body>
     </html>

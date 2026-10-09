@@ -1,4 +1,8 @@
+"use client"
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -11,6 +15,44 @@ const socialClass =
     "flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-gray-200 bg-white px-2 py-2.5 text-[13px] font-semibold text-gray-900 transition hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600/40";
 
 const SignInPage = () => {
+
+    const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+    const [password, setPassword] = useState("")
+    const [loading, setLoading] = useState(false);
+
+
+    const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setError("");
+        setLoading(true);
+
+        const { error } = await authClient.signIn.email({ email, password });
+        setLoading(false);
+
+        if (error) {
+            setError(error.message ?? "সাইন ইন করা যায়নি, আবার চেষ্টা করুন।");
+            return;
+        }
+
+        router.push("/");
+        router.refresh();
+    };
+
+    const handleGoogleSignIn = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+            callbackURL: "/"
+        });
+    };
+
+    const handleGithubSignIn = async () => {
+        await authClient.signIn.social({
+            provider: "github",
+            callbackURL: "/"
+        });
+    };
     return (
         <main className="flex min-h-screen flex-col items-center bg-[#f1f5f0] px-4 py-10">
             <div className="w-full max-w-[380px]">
@@ -24,7 +66,9 @@ const SignInPage = () => {
 
                 {/* card */}
                 <div className="rounded-2xl border border-gray-200 bg-[#fafcf9] p-5">
-                    <form className="flex flex-col gap-4">
+                    <form
+                        onSubmit={handleSignIn}
+                        className="flex flex-col gap-4">
                         <div>
                             <label htmlFor="email" className={labelClass}>
                                 ইমেইল
@@ -32,6 +76,9 @@ const SignInPage = () => {
                             <input
                                 id="email"
                                 type="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="you@example.com"
                                 className={inputClass}
                             />
@@ -44,16 +91,23 @@ const SignInPage = () => {
                             <input
                                 id="password"
                                 type="password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+
                                 placeholder="কমপক্ষে ৮ অক্ষর"
                                 className={inputClass}
                             />
                         </div>
+                        {error && <p className="text-sm text-red-600">{error}</p>}
 
                         <button
+
                             type="submit"
+                            disabled={loading}
                             className="mt-1 w-full rounded-lg bg-green-700 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-green-700/30 transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600/50"
                         >
-                            সাইন ইন
+                            {loading ? "অপেক্ষা করুন..." : "সাইন ইন"}
                         </button>
                     </form>
 
@@ -66,15 +120,22 @@ const SignInPage = () => {
 
                     {/* social buttons */}
                     <div className="flex gap-3">
-                        <Link href="#" className={socialClass}>
+                        <button
+                            type="button"
+                            onClick={handleGoogleSignIn}
+                            className={socialClass}>
                             <FcGoogle size={18} aria-hidden="true" />
                             Google দিয়ে চালিয়ে যান
-                        </Link>
+                        </button>
 
-                        <Link href="#" className={socialClass}>
+                        <button
+                            type="button"
+                            onClick={handleGithubSignIn}
+
+                            className={socialClass}>
                             <FaGithub size={18} aria-hidden="true" />
                             GitHub দিয়ে চালিয়ে যান
-                        </Link>
+                        </button>
                     </div>
 
                     {/* sign up link */}

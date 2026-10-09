@@ -57,7 +57,7 @@ export default function ProductList({ products }: { products: Product[] }) {
                 {sorted.map((p) => (
                     <Link
                         key={p.id}
-                        href={`/product/${p.slug}`}
+                        href={`/product/${p.id}`}
                         className="rounded-2xl border bg-white p-4 transition hover:shadow-md"
                     >
                         <div className="flex items-center gap-3">

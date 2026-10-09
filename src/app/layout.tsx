@@ -12,7 +12,7 @@ const notoSerifBengali = Noto_Serif_Bengali({
 });
 
 export const metadata: Metadata = {
-  title: "market-prices",
+  title: "DailyBazar",
   description: "বাজার দর",
 };
 

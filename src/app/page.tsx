@@ -3,6 +3,13 @@ import Hero from "@/components/hero";
 import PriceIncrease from "@/components/PriceIncrease";
 import PriceDecreased from "@/components/PriceDecrease";
 import AllProducts from "@/components/AllProducts";
+import ProductSkeleton from "@/components/ProductSkeleton";
+
+const skeleton = (
+  <section className="mx-auto max-w-7xl px-5 py-6">
+    <ProductSkeleton count={6} />
+  </section>
+);
 
 export default function Home() {
   return (
@@ -11,12 +18,14 @@ export default function Home() {
         <Hero />
       </Suspense>
 
-      <Suspense fallback={<div className="mx-auto h-96 max-w-7xl px-5 py-6" />}>
+      <Suspense fallback={skeleton}>
         <PriceIncrease />
       </Suspense>
 
 
-      <PriceDecreased />
+      <Suspense fallback={skeleton}>
+        <PriceDecreased />
+      </Suspense>
       <AllProducts />
     </>
   );

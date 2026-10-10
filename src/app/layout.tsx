@@ -5,8 +5,7 @@ import Header from "@/components/header";
 import Marquie from "@/components/Marquie";
 import NavLinks from "@/components/NavLinks";
 import { Suspense } from "react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
+import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
 
 const notoSerifBengali = Noto_Serif_Bengali({
@@ -40,7 +39,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </div>
-        <ToastContainer position="top-right" autoClose={3000} />
+        <Toaster position="top-right" />
       </body>
     </html>
   );

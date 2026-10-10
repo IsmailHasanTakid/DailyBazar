@@ -25,13 +25,19 @@ export default async function CategoryPage({
 }) {
     const { slug } = await params;
 
-    const res = await fetch(
-        `https://api.abcz.workers.dev/api/bazardor/products?category=${slug}`,
-        { cache: "no-store" }
-    );
-    if (!res.ok) notFound();
+    let products: Product[] = [];
+    try {
+        const res = await fetch(
+            `https://api.abcz.workers.dev/api/bazardor/products?category=${encodeURIComponent(slug)}`,
+            { cache: "no-store" }
+        );
+        if (!res.ok) throw new Error("Failed");
+        const data = await res.json();
+        products = Array.isArray(data) ? data : [];
+    } catch {
+        notFound();
+    }
 
-    const products: Product[] = await res.json();
     if (!products.length) notFound();
 
     const { categoryNameBn, categoryIcon } = products[0];

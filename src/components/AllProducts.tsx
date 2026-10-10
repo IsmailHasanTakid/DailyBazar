@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import ChangeBadge from "./ChangedBadge";
+import ProductSkeleton from "./ProductSkeleton";
 import { unitBn } from "@/lib/utlis";
+import toast from "react-hot-toast";
 
 interface Product {
     id: number;
@@ -42,7 +43,7 @@ const AllProducts = () => {
             } catch {
                 setError("ডেটা লোড করা যায়নি");
                 toast.error("পণ্যের তালিকা লোড করতে সমস্যা হয়েছে!", {
-                    toastId: "all-products-error",
+                    id: "all-products-error",
                 });
             } finally {
                 setLoading(false);
@@ -54,9 +55,9 @@ const AllProducts = () => {
 
     return (
         <section id="সব-পণ্য" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-6">
-            <h2 className="mb-4 text-xl font-bold text-gray-900">সব পণ্য</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900">সব পণ্য</h2>
 
-            {loading && <p className="text-gray-500">লোড হচ্ছে...</p>}
+            {loading && <ProductSkeleton count={9} />}
 
             {error && <p className="text-red-600">{error}</p>}
 

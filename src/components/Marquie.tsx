@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import MarqueeText from "react-marquee-text";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import "react-marquee-text/dist/styles.css";
 
 interface Product {

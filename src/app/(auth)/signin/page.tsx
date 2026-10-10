@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 
 const inputClass =

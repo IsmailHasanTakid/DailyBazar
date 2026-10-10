@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
+import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 
 const inputClass =
@@ -28,30 +29,46 @@ const SignInPage = () => {
         setError("");
         setLoading(true);
 
-        const { error } = await authClient.signIn.email({ email, password });
-        setLoading(false);
+        try {
+            const { error } = await authClient.signIn.email({ email, password });
 
-        if (error) {
-            setError(error.message ?? "সাইন ইন করা যায়নি, আবার চেষ্টা করুন।");
-            return;
+            if (error) {
+                const msg = error.message ?? "সাইন ইন করা যায়নি, আবার চেষ্টা করুন।";
+                setError(msg);
+                toast.error(msg);
+                return;
+            }
+
+            toast.success("সফলভাবে সাইন ইন হয়েছে!");
+            router.push("/");
+            router.refresh();
+        } catch {
+            toast.error("সাইন ইন করা যায়নি, আবার চেষ্টা করুন।");
+        } finally {
+            setLoading(false);
         }
-
-        router.push("/");
-        router.refresh();
     };
 
     const handleGoogleSignIn = async () => {
-        await authClient.signIn.social({
-            provider: "google",
-            callbackURL: "/"
-        });
+        try {
+            await authClient.signIn.social({
+                provider: "google",
+                callbackURL: "/",
+            });
+        } catch {
+            toast.error("Google দিয়ে সাইন ইন করা যায়নি!");
+        }
     };
 
     const handleGithubSignIn = async () => {
-        await authClient.signIn.social({
-            provider: "github",
-            callbackURL: "/"
-        });
+        try {
+            await authClient.signIn.social({
+                provider: "github",
+                callbackURL: "/",
+            });
+        } catch {
+            toast.error("GitHub দিয়ে সাইন ইন করা যায়নি!");
+        }
     };
     return (
         <main className="flex min-h-screen flex-col items-center bg-[#f1f5f0] px-4 py-10">

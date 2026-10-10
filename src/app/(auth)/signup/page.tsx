@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
+import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 
 const inputClass =
@@ -29,45 +30,55 @@ const SignUpPage = () => {
         setError("");
 
         if (password !== confirm) {
-            setError("দুটি পাসওয়ার্ড মিলছে না।");
+            const msg = "দুটি পাসওয়ার্ড মিলছে না।";
+            setError(msg);
+            toast.error(msg);
             return;
         }
 
         setLoading(true);
 
-        const { error } = await authClient.signUp.email({ name, email, password });
+        try {
+            const { error } = await authClient.signUp.email({ name, email, password });
 
-        setLoading(false);
+            if (error) {
+                const msg = error.message ?? "সাইন আপ করা যায়নি, আবার চেষ্টা করুন।";
+                setError(msg);
+                toast.error(msg);
+                return;
+            }
 
-        if (error) {
-            setError(error.message ?? "সাইন আপ করা যায়নি, আবার চেষ্টা করুন।");
-            return;
+            toast.success("সফলভাবে সাইন আপ হয়েছে! এখন সাইন ইন করুন।");
+            router.push("/signin");
+            router.refresh();
+        } catch {
+            toast.error("সাইন আপ করা যায়নি, আবার চেষ্টা করুন।");
+        } finally {
+            setLoading(false);
         }
-
-        router.push("/");
-        router.refresh();
     };
 
     const handleGoogleSignUp = async () => {
-        await authClient.signIn.social({
-            provider: "google",
-            callbackURL: "/"
-        });
+        try {
+            await authClient.signIn.social({
+                provider: "google",
+                callbackURL: "/",
+            });
+        } catch {
+            toast.error("Google দিয়ে সাইন আপ করা যায়নি!");
+        }
     };
 
     const handleGithubSignUp = async () => {
-        await authClient.signIn.social({
-            provider: "github",
-            callbackURL: "/"
-        });
+        try {
+            await authClient.signIn.social({
+                provider: "github",
+                callbackURL: "/",
+            });
+        } catch {
+            toast.error("GitHub দিয়ে সাইন আপ করা যায়নি!");
+        }
     };
-
-
-
-
-
-
-
 
     return (
         <main className="flex min-h-screen flex-col items-center bg-[#f1f5f0] px-4 py-10">

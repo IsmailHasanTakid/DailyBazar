@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface Category {
     id: string;
@@ -22,10 +23,13 @@ const NavLinks = () => {
                 const res = await fetch(
                     "https://api.abcz.workers.dev/api/bazardor/categories"
                 );
+                if (!res.ok) throw new Error("Failed");
                 const data = await res.json();
-                setCategories(data);
-            } catch (error) {
-                console.error("ক্যাটাগরি লোড করতে সমস্যা:", error);
+                setCategories(Array.isArray(data) ? data : []);
+            } catch {
+                toast.error("ক্যাটাগরি লোড করতে সমস্যা হয়েছে!", {
+                    toastId: "categories-error",
+                });
             } finally {
                 setLoading(false);
             }

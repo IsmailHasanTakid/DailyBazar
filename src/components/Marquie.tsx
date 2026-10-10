@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import MarqueeText from "react-marquee-text";
+import { toast } from "react-toastify";
 import "react-marquee-text/dist/styles.css";
 
 interface Product {
@@ -37,11 +38,13 @@ const Marquie = () => {
                 const res = await fetch(
                     "https://api.abcz.workers.dev/api/bazardor/products"
                 );
+                if (!res.ok) throw new Error("Failed");
                 const data = await res.json();
-
                 setProducts(Array.isArray(data) ? data : []);
-            } catch (error) {
-                console.error("প্রোডাক্ট লোড করতে সমস্যা:", error);
+            } catch {
+                toast.error("প্রোডাক্ট লোড করতে সমস্যা হয়েছে!", {
+                    toastId: "products-error",
+                });
             }
         };
         getProducts();

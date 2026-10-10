@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { authClient } from "@/lib/auth-client";
 
 const ProfilePage = () => {
@@ -28,13 +28,13 @@ const ProfilePage = () => {
             return;
         }
 
-        toast.success("নাম আপডেট হয়েছে।");
+        toast.success("নাম আপডেট সফল হয়েছে।");
         setName("");
     };
 
     const handleSignOut = async () => {
         await authClient.signOut();
-        toast.success("সাইন আউট হয়েছে।");
+        toast.success("সাইন আউট সফল হয়েছে।");
         router.push("/");
     };
 

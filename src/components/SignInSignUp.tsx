@@ -3,6 +3,7 @@
 import React from "react";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
@@ -11,10 +12,19 @@ const SignInSignUp = () => {
     const { data: session, isPending } = authClient.useSession();
 
     const handleLogOut = async () => {
-        await authClient.signOut();
-        router.push("/");
-        router.refresh();
+        try {
+            await authClient.signOut();
+            toast.success("সফলভাবে সাইন আউট হয়েছে!");
+            router.push("/");
+            router.refresh();
+
+        }
+        catch {
+            toast.error("সাইন আউট করতে সমস্যা হয়েছে!");
+        }
+
     };
+
 
     const user = session?.user;
     const displayName = user?.name || user?.email || "ব্যবহারকারী";
@@ -25,7 +35,7 @@ const SignInSignUp = () => {
         );
     }
 
-    // লগইন করা থাকলে: প্রোফাইল + সাইন আউট
+
     if (session) {
         return (
             <div className="flex items-center gap-2 sm:gap-3">
@@ -35,7 +45,7 @@ const SignInSignUp = () => {
                     className="flex items-center gap-2 rounded-full transition hover:opacity-80"
                 >
                     {user?.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
+
                         <img
                             src={user.image}
                             alt={displayName}
@@ -65,7 +75,7 @@ const SignInSignUp = () => {
         );
     }
 
-    // লগইন না থাকলে: সাইন ইন + সাইন আপ
+
     return (
         <div className="flex items-center gap-1.5 sm:gap-3">
             <Link

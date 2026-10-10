@@ -1,4 +1,7 @@
 import Link from "next/link";
+import ChangeBadge from "./ChangedBadge";
+import ToastError from "./ToastError";
+import { unitBn } from "@/lib/utlis";
 
 interface Product {
     id: number;
@@ -12,32 +15,37 @@ interface Product {
     };
 }
 
-const unitBn: Record<string, string> = {
-    kg: "কেজি",
-    litre: "লিটার",
-    piece: "পিস",
-    dozen: "ডজন",
-    hali: "হালি",
-};
-
 const PriceDecreased = async () => {
     let products: Product[] = [];
+    let failed = false;
 
     try {
         const res = await fetch(
             "https://api.abcz.workers.dev/api/bazardor/products",
             { next: { revalidate: 3600 } }
         );
-        if (res.ok) {
-            products = await res.json();
-        }
-    } catch (error) {
-        console.error("Product fetch error:", error);
+        if (!res.ok) throw new Error("Failed");
+        const data = await res.json();
+        products = Array.isArray(data) ? data : [];
+    } catch {
+        failed = true;
+    }
+
+    if (failed) {
+        return (
+            <ToastError
+                message="পণ্যের তথ্য লোড করতে সমস্যা হয়েছে!"
+                id="home-products-error"
+            />
+        );
     }
 
     const decreasedProducts = products
         .filter((product) => product.change.dir === "down")
-        .sort((a, b) => b.change.pct - a.change.pct || b.today - a.today)
+        .sort(
+            (a, b) =>
+                Math.abs(b.change.pct) - Math.abs(a.change.pct) || b.today - a.today
+        )
         .slice(0, 6);
 
     if (decreasedProducts.length === 0) return null;
@@ -51,11 +59,11 @@ const PriceDecreased = async () => {
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {decreasedProducts.map((item) => (
-                    <Link href={`/product/${item.id}`}
+                    <Link
+                        href={`/product/${item.id}`}
                         key={item.id}
                         className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4"
                     >
-
                         <div className="flex items-center gap-3">
                             <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-2xl">
                                 {item.image}
@@ -76,9 +84,7 @@ const PriceDecreased = async () => {
                                 <span className="text-lg font-bold text-gray-900">
                                     {item.today.toLocaleString("bn-BD")} টাকা
                                 </span>
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-green-700">
-                                    ▼ {Math.abs(item.change.pct).toLocaleString("bn-BD")}%
-                                </span>
+                                <ChangeBadge dir={item.change.dir} pct={item.change.pct} />
                             </div>
                         </div>
                     </Link>

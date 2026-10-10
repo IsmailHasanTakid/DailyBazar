@@ -27,9 +27,9 @@ const Header = async () => {
                     </span>
 
                     <span className="min-w-0">
-                        <h1 className="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-gray-950 leading-tight">
+                        <p className="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-gray-950 leading-tight">
                             বাজার দর
-                        </h1>
+                        </p>
                         <p className="text-[10px] sm:text-xs font-medium text-gray-500 truncate">
                             {date}
                         </p>

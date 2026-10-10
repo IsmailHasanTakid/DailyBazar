@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 interface Category {
     id: string;
@@ -28,7 +28,7 @@ const NavLinks = () => {
                 setCategories(Array.isArray(data) ? data : []);
             } catch {
                 toast.error("ক্যাটাগরি লোড করতে সমস্যা হয়েছে!", {
-                    toastId: "categories-error",
+                    id: "categories-error",
                 });
             } finally {
                 setLoading(false);

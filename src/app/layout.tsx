@@ -34,7 +34,9 @@ export default function RootLayout({
           <Suspense fallback={<div className="h-10" />}>
             <Header />
           </Suspense>
-          <NavLinks />
+          <Suspense fallback={<div className="h-12 border-y border-gray-200" />}>
+            <NavLinks />
+          </Suspense>
           <Marquie />
           {children}
           <Footer />

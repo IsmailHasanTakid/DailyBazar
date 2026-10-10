@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import MarqueeText from "react-marquee-text";
 import toast from "react-hot-toast";
 import "react-marquee-text/dist/styles.css";
+import Link from "next/link";
 
 interface Product {
     id: string;
@@ -43,7 +44,7 @@ const Marquie = () => {
                 setProducts(Array.isArray(data) ? data : []);
             } catch {
                 toast.error("প্রোডাক্ট লোড করতে সমস্যা হয়েছে!", {
-                    toastId: "products-error",
+                    id: "products-error",
                 });
             }
         };
@@ -57,8 +58,7 @@ const Marquie = () => {
         <div className="w-full overflow-hidden border-b border-gray-200 bg-white py-2">
             <MarqueeText
                 direction="right"
-                duration={20}
-                pauseOnHover
+                duration={15}
             >
                 <div className="flex items-center gap-5 sm:gap-8 pr-5 sm:pr-8">
                     {products.map((m) => {
@@ -66,7 +66,7 @@ const Marquie = () => {
                         const pct = Math.abs(m.change?.pct ?? 0);
 
                         return (
-                            <div
+                            <Link href={`/product/${m.id}`}
                                 key={m.id}
                                 className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap text-xs sm:text-sm"
                             >
@@ -88,7 +88,7 @@ const Marquie = () => {
                                     {dir === "up" ? "▲" : dir === "down" ? "▼" : "–"}{" "}
                                     {toBn(pct)}%
                                 </span>
-                            </div>
+                            </Link>
                         );
                     })}
                 </div>

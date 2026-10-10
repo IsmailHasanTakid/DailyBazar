@@ -185,12 +185,9 @@ Make sure you have installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone <https://github.com/IsmailHasanTakid/DailyBazar>
 cd market-prices
 ```
-
-Replace `<your-repository-url>` with your GitHub repository URL.
-
 ### 2. Install Dependencies
 
 ```bash
@@ -265,21 +262,7 @@ To start the production server locally:
 npm start
 ```
 
----
 
-## ☁️ Deployment on Vercel
-
-Follow these steps to deploy DailyBazar.
-
-1. Push your project to GitHub.
-2. Sign in to [Vercel](https://vercel.com/).
-3. Import your GitHub repository and configure the project.
-4. Add the required environment variables under **Project Settings → Environment Variables**.
-5. Update `BETTER_AUTH_URL` and `NEXT_PUBLIC_BETTER_AUTH_URL` to use your production domain.
-6. Configure the production callback URLs in Google Cloud Console and GitHub OAuth settings.
-7. Configure MongoDB Atlas network access to allow connections from your deployment environment.
-8. Deploy the project.
-9. Redeploy whenever you change environment variables.
 
 **Production environment variables**
 

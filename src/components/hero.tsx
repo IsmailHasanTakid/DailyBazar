@@ -9,8 +9,8 @@ const Hero = async () => {
     });
 
     return (
-        <section className="max-w-[1400px] mx-auto pt-7">
-            <div className="flex items-center gap-6 rounded-3xl border border-green-100 bg-green-50/60 px-8 py-8 md:px-10">
+        <section className="max-w-[1400px] mx-auto pt-7 px-4 md:px-0">
+            <div className="flex flex-col md:flex-row items-center gap-6 rounded-3xl border border-green-100 bg-green-50/60 px-8 py-8 md:px-10">
 
                 {/* Text */}
                 <div className="flex w-full flex-col items-start gap-4 md:w-[65%]">
@@ -36,14 +36,14 @@ const Hero = async () => {
                 </div>
 
                 {/* Image */}
-                <div className="hidden w-[32%] shrink-0 items-center justify-center md:flex">
+                <div className="flex w-full shrink-0 items-center justify-center md:w-[32%]">
                     <Image
                         src="/Assets/bazar-hero.png"
                         alt="বাজারের ঝুড়ি"
                         width={320}
                         height={270}
                         priority
-                        className="h-auto w-full max-w-[300px]"
+                        className="h-auto w-full max-w-[220px] md:max-w-[300px]"
                     />
                 </div>
 
